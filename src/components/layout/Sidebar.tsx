@@ -7,7 +7,6 @@ import {
   Briefcase,
   FolderOpen,
   CheckSquare,
-  Scale,
   ChevronLeft,
   ChevronRight,
 } from 'lucide-react';
