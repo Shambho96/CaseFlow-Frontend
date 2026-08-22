@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200" fill="none">
+  <!-- Icon -->
+  <g transform="translate(20, 20) scale(0.3125)">
+    <rect width="512" height="512" rx="128" fill="#7c3aed"/>
+    <path d="M176 416H336" stroke="white" stroke-width="36" stroke-linecap="round"/>
+    <path d="M256 104V416" stroke="white" stroke-width="36" stroke-linecap="round"/>
+    <path d="M128 176C180 176 220 144 256 128C292 144 332 176 384 176" stroke="white" stroke-width="32" stroke-linecap="round"/>
+    <path d="M128 176L88 312C88 334.091 105.909 352 128 352C150.091 352 168 334.091 168 312L128 176Z" fill="white"/>
+    <path d="M384 176L344 312C344 334.091 361.909 352 384 352C406.091 352 424 334.091 424 312L384 176Z" fill="white"/>
+    <circle cx="256" cy="104" r="24" fill="white"/>
+  </g>
+  
+  <!-- Text -->
+  <text x="210" y="125" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-size="96" font-weight="700" fill="#ffffff" letter-spacing="-2">
+    Case<tspan fill="#7c3aed">Flow</tspan>
+  </text>
+</svg>
