@@ -7,7 +7,7 @@ const d = (offsetDays: number) => {
   return dt.toISOString().split('T')[0];
 };
 
-export const cases: Case[] = [
+const rawCases: Case[] = [
   // ── Civil ────────────────────────────────────────────────────────────────
   {
     id: 'case-1',
@@ -764,3 +764,14 @@ export const cases: Case[] = [
     decisionSummary: 'Complaint dismissed. No deficiency in service established.',
   },
 ];
+
+// Spread filing dates over the last ~9 months (relative to today) so trend
+// analytics like "Filed vs Decided" always have data in recent ranges.
+export const cases: Case[] = rawCases.map((c, i) => ({
+  ...c,
+  filedDate: c.filedDate ? d(-(2 + ((i * 9) % 270))) : c.filedDate,
+  decidedDate:
+    c.status === 'Decided' && !c.decidedDate
+      ? d(-(1 + ((i * 7) % 200)))
+      : c.decidedDate,
+}));

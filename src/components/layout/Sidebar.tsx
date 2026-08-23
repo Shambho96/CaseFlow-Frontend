@@ -37,7 +37,7 @@ export function Sidebar({ mobile = false, onClose }: SidebarProps) {
       animate={{ width: mobile ? 260 : sidebarOpen ? 220 : 64 }}
       transition={{ duration: 0.2, ease: 'easeInOut' }}
       className={cn(
-        'flex flex-col h-full bg-sidebar border-r border-sidebar-border overflow-hidden',
+        'flex flex-col h-full bg-sidebar border-r border-sidebar-border overflow-hidden no-print',
         mobile && 'w-full'
       )}
     >

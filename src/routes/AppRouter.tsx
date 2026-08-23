@@ -10,6 +10,8 @@ import { ClientsPage } from '@/pages/dashboard/ClientsPage';
 import { CalendarPage } from '@/pages/dashboard/CalendarPage';
 import { DocumentsPage } from '@/pages/dashboard/DocumentsPage';
 import { TasksPage } from '@/pages/dashboard/TasksPage';
+import { ProfilePage } from '@/pages/dashboard/ProfilePage';
+import { SettingsPage } from '@/pages/dashboard/SettingsPage';
 
 export function AppRouter() {
   return (
@@ -28,6 +30,8 @@ export function AppRouter() {
         <Route path="cases/:id" element={<CaseDetailPage />} />
         <Route path="documents" element={<DocumentsPage />} />
         <Route path="tasks" element={<TasksPage />} />
+        <Route path="profile" element={<ProfilePage />} />
+        <Route path="settings" element={<SettingsPage />} />
       </Route>
 
       {/* Fallback */}

@@ -1,6 +1,16 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import type { Client } from '@/types';
 import { clients as mockClients } from '@/mocks';
+
+const LS_KEY = 'lawcaseflow-clients';
+
+function loadClients(): Client[] {
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    if (raw) return JSON.parse(raw) as Client[];
+  } catch { /* ignore */ }
+  return mockClients;
+}
 
 interface ClientContextValue {
   clients: Client[];
@@ -16,7 +26,11 @@ interface ClientContextValue {
 const ClientContext = createContext<ClientContextValue | undefined>(undefined);
 
 export function ClientProvider({ children }: { children: React.ReactNode }) {
-  const [clients, setClients] = useState<Client[]>(mockClients);
+  const [clients, setClients] = useState<Client[]>(loadClients);
+
+  useEffect(() => {
+    localStorage.setItem(LS_KEY, JSON.stringify(clients));
+  }, [clients]);
 
   const addClient = useCallback((c: Client) => {
     setClients((prev) => [...prev, c]);

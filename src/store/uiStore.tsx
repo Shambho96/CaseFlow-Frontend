@@ -1,23 +1,28 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import type { Theme } from '@/types';
+import type { Theme, ScopeFilter } from '@/types';
 
 interface UIContextValue {
   theme: Theme;
+  setTheme: (t: Theme) => void;
   toggleTheme: () => void;
   sidebarOpen: boolean;
   setSidebarOpen: (v: boolean) => void;
   toggleSidebar: () => void;
+  scope: ScopeFilter;
+  setScope: (s: ScopeFilter) => void;
 }
 
 const UIContext = createContext<UIContextValue | undefined>(undefined);
 
 export function UIProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>(() => {
+  const [theme, setThemeState] = useState<Theme>(() => {
     const stored = localStorage.getItem('lawcaseflow-theme');
     if (stored === 'dark' || stored === 'light') return stored;
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   });
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  // Scope dropdown was removed from the topbar — always start unfiltered.
+  const [scope, setScopeState] = useState<ScopeFilter>({ kind: 'all', value: '' });
 
   useEffect(() => {
     const root = document.documentElement;
@@ -29,14 +34,19 @@ export function UIProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem('lawcaseflow-theme', theme);
   }, [theme]);
 
+  const setScope = useCallback((s: ScopeFilter) => {
+    setScopeState(s);
+  }, []);
+
+  const setTheme = useCallback((t: Theme) => setThemeState(t), []);
   const toggleTheme = useCallback(() => {
-    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+    setThemeState((prev) => (prev === 'light' ? 'dark' : 'light'));
   }, []);
 
   const toggleSidebar = useCallback(() => setSidebarOpen((prev) => !prev), []);
 
   return (
-    <UIContext.Provider value={{ theme, toggleTheme, sidebarOpen, setSidebarOpen, toggleSidebar }}>
+    <UIContext.Provider value={{ theme, setTheme, toggleTheme, sidebarOpen, setSidebarOpen, toggleSidebar, scope, setScope }}>
       {children}
     </UIContext.Provider>
   );

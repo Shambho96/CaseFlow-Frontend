@@ -4,6 +4,7 @@ import { UIProvider } from '@/store/uiStore';
 import { CaseProvider } from '@/store/caseStore';
 import { ClientProvider } from '@/store/clientStore';
 import { TaskProvider } from '@/store/taskStore';
+import { ToastProvider } from '@/store/toastStore';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import '@/styles/globals.css';
 
@@ -15,7 +16,9 @@ function App() {
           <ClientProvider>
             <TaskProvider>
               <TooltipProvider>
-                <AppRouter />
+                <ToastProvider>
+                  <AppRouter />
+                </ToastProvider>
               </TooltipProvider>
             </TaskProvider>
           </ClientProvider>

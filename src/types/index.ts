@@ -30,6 +30,8 @@ export type CaseCategory =
 
 export type CaseStatus = 'Awaited' | 'Pending' | 'Decided' | 'Abandoned';
 
+export type Empanelment = 'Insurance Panel' | 'Bank Panel' | 'Corporate Panel' | 'None';
+
 export type CourtType =
   | 'High Court'
   | 'District Court'
@@ -67,6 +69,17 @@ export interface Case {
   advocateIds: string[];
   docketRef?: string;
   judgeName?: string;
+  // Extended identifiers (PRD 2.5)
+  referenceNo?: string;
+  fileNo?: string;
+  fileName?: string;
+  year?: string;
+  companyName?: string;
+  empanelment?: Empanelment;
+  comments?: string;
+  // Labels & custom fields
+  labelIds?: string[];
+  customFieldValues?: Record<string, string>;
   // Criminal specifics
   isCriminal?: boolean;
   firNo?: string;
@@ -115,7 +128,7 @@ export interface Advocate {
 
 // ─── Document Types ───────────────────────────────────────────────────────────
 
-export type DocumentCategory = 'General' | 'Case' | 'AI Draft';
+export type DocumentCategory = 'General' | 'Case' | 'Client' | 'AI Draft';
 
 export interface DocumentFile {
   id: string;
@@ -148,6 +161,22 @@ export interface CalendarEvent {
   colorKey: 'chart-1' | 'chart-2' | 'chart-3' | 'chart-4' | 'chart-5' | 'primary' | 'accent' | 'destructive';
 }
 
+// ─── Label & Custom Field Types ──────────────────────────────────────────────
+
+export type LabelColor = 'chart-1' | 'chart-2' | 'chart-3' | 'chart-4' | 'chart-5' | 'primary';
+
+export interface CaseLabel {
+  id: string;
+  name: string;
+  color: LabelColor;
+}
+
+export interface CustomField {
+  id: string;
+  name: string;
+  type: 'text' | 'number' | 'date';
+}
+
 // ─── UI Types ─────────────────────────────────────────────────────────────────
 
 export type Theme = 'light' | 'dark';
@@ -163,6 +192,16 @@ export interface FilterState {
   includeDecided?: boolean;
   onlyDecided?: boolean;
   onlyAwaited?: boolean;
+  dateScope?: 'today' | 'tomorrow';
+}
+
+// ─── Scope Types ─────────────────────────────────────────────────────────────
+
+export type ScopeKind = 'all' | 'advocate' | 'courtType' | 'court';
+
+export interface ScopeFilter {
+  kind: ScopeKind;
+  value: string; // advocate id, court type, or court name
 }
 
 // ─── Notify Types ─────────────────────────────────────────────────────────────

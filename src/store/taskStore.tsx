@@ -1,6 +1,16 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import type { Task, TaskStatus } from '@/types';
 import { tasks as mockTasks } from '@/mocks';
+
+const LS_KEY = 'lawcaseflow-tasks';
+
+function loadTasks(): Task[] {
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    if (raw) return JSON.parse(raw) as Task[];
+  } catch { /* ignore */ }
+  return mockTasks;
+}
 
 interface TaskContextValue {
   tasks: Task[];
@@ -14,7 +24,11 @@ interface TaskContextValue {
 const TaskContext = createContext<TaskContextValue | undefined>(undefined);
 
 export function TaskProvider({ children }: { children: React.ReactNode }) {
-  const [tasks, setTasks] = useState<Task[]>(mockTasks);
+  const [tasks, setTasks] = useState<Task[]>(loadTasks);
+
+  useEffect(() => {
+    localStorage.setItem(LS_KEY, JSON.stringify(tasks));
+  }, [tasks]);
 
   const addTask = useCallback((t: Task) => {
     setTasks((prev) => [...prev, t]);
